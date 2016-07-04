@@ -1,0 +1,38 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%-5level %logger{35}: %m%n%xEx</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="PAPERTRAIL" class="com.papertrailapp.logback.Syslog4jAppender">
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%-5level %logger{35}: %m%n%xEx</pattern>
+        </layout>
+
+        <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.ssl.SSLTCPNetSyslogConfig">
+            <localName>develop</localName>
+            <!-- remote system to log to -->
+            <host>logs4.papertrailapp.com</host>
+            <!-- remote port to log to -->
+            <port>35147</port>
+            <!-- program name to log as -->
+            <ident>liftmicroservices</ident>
+            <!-- max log message length in bytes -->
+            <maxMessageLength>128000</maxMessageLength>
+        </syslogConfig>
+
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="PAPERTRAIL" />
+    </root>
+
+    <logger name="lm" level="DEBUG"/>
+
+</configuration>

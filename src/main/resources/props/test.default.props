@@ -1,0 +1,5 @@
+aws.id=AKIAJFIGHMI77B2L4EYA
+aws.secret=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
+cloudwatch.namespace=liftmicroservice
+
+jwt.secret=secretInTest
