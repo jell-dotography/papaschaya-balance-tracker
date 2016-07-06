@@ -6,4 +6,3 @@ jwt.secret=Some1Arbitrary3Long2String4That3No5One4Would6Be5Able7To6Guess8
 
 service.user.uri = http://192.168.3.5:7040
 service.user.timeout = 30000
-

@@ -1,0 +1,111 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    
+    <changeSet id="CREATE_INCOME_CATEGORY_TABLE" author="jell">
+        <createTable tableName="income_category">
+            <column name="id" type="smallint">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="description" type="varchar(50)">
+                <constraints nullable="false" />ddddd
+            </column>
+        </createTable>
+    </changeSet>    
+        
+    <changeSet id="CREATE_EXPENSE_CATEGORY_TABLE" author="jell">
+        <createTable tableName="expense_category" >
+            <column name="id" type="smallint">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="description" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="LOAD_DATA_INCOME_CATEGORY" author="jell">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM income_category</sqlCheck>
+        </preConditions>
+        <loadData tableName="income_category" file="migrations/data/incomeCategory.csv"
+            quotchar="'" separator=";" />
+    </changeSet>
+    
+    <changeSet id="LOAD_DATA_EXPENSE_CATEGORY" author="jell">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM expense_category</sqlCheck>
+        </preConditions>
+        <loadData tableName="expense_category" file="migrations/data/expenseCategory.csv"
+            quotchar="'" separator=";" />
+    </changeSet>
+    
+    <changeSet id="ADD_AUTO_INCREMENT_INCOME" author="jell">
+        <addAutoIncrement tableName="income_category" columnName="id" 
+            incrementBy="1" startWith="1" columnDataType="smallint" />
+    </changeSet>
+    
+    <changeSet id="ADD_AUTO_INCREMENT_EXPENSE" author="jell">
+        <addAutoIncrement tableName="expense_category" columnName="id" 
+            incrementBy="1" startWith="1" columnDataType="smallint" />
+    </changeSet>    
+        
+    <changeSet id="CREATE_INCOME" author="jell">
+        <createTable tableName="income" >
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="category_id" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="amount" type="currency">
+                <constraints nullable="false" />
+            </column>
+            <column name="effective_date" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>    
+        
+    <changeSet id="CREATE_EXPENSE" author="jell">
+        <createTable tableName="expense" >
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="category_id" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="amount" type="currency">
+                <constraints nullable="false" />
+            </column>
+            <column name="effective_date" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="ADD_FK_INCOME_INCOME_CATEGORY" author="jell">
+        <addForeignKeyConstraint baseTableName="income" baseColumnNames="category_id" 
+            constraintName="fk_income_incomecategory" referencedTableName="income_category" referencedColumnNames="id" />
+    </changeSet>
+    
+    <changeSet id="ADD_FK_INCOME_EXPENSE_CATEGORY" author="jell">
+        <addForeignKeyConstraint baseTableName="expense" baseColumnNames="category_id" 
+            constraintName="fk_expense_expensecategory" referencedTableName="expense_category" referencedColumnNames="id" />
+    </changeSet>
+    
+</databaseChangeLog>

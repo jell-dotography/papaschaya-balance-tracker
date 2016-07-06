@@ -1,0 +1,6 @@
+CREATE DATABASE balancetracker CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER 'balancetracker'@'localhost' IDENTIFIED BY 'dotographyIsTheBoss'
+GRANT ALL PRIVILEGES ON balancetracker.* TO 'balancetracker'@'localhost';
+FLUSH PRIVILEGES;
+
+tr#5967mnl
