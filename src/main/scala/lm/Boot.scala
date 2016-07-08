@@ -11,6 +11,7 @@ import javax.sql.DataSource
 import lm.jwt.{ Uid, JwtAuthentication }
 import net.liftweb.http.Req
 import net.liftweb.db.ConnectionManager
+import net.liftweb.db.DBLogEntry
 import net.liftweb.http.GetRequest
 import net.liftweb.http.auth.AuthRole
 import net.liftweb.http.auth.userRoles
@@ -40,30 +41,51 @@ class Boot extends Bootable with Loggable {
     LiftRules.statelessDispatch.append(API)
     LiftRules.addToPackages("com.dotography.balancetracker")
 
+//S.addAnalyzer {
+//  case (Full(req), duration, log) => {
+//    logger.debug(("Total request time on %s: %d ms").format(req.uri, duration))
+//    log.foreach {
+//      case (stmt,duration) =>
+//        logger.debug("  %s in %d ms".format(stmt, duration))
+//    }
+//  }
+//  case _ => // we don’t log for non-requests
+//}
 //    Metrics.report()
     
 
     // example authorization
-    LiftRules.httpAuthProtectedResource.append({
-      case Req(List(prefix, "auth"), _, GetRequest) => Full(AuthRole("auth"))
-    })
-
-    // example authentication
-    LiftRules.authentication = lm.jwt.JwtAuthentication("Cus") {
-      case (jwt, req) => {
-        (for {
-          uid <- jwt.getClaim[Uid]
-        } yield {
-          val check = (uid.value == 1)
-          if (check)
-            userRoles(AuthRole("auth"))
-          check
-        }).getOrElse(false)
-      }
-      case _ => false
-    }
+//    LiftRules.httpAuthProtectedResource.append({
+//      case Req(List(prefix, "auth"), _, GetRequest) => Full(AuthRole("auth"))
+//    })
+//
+//    // example authentication
+//    LiftRules.authentication = lm.jwt.JwtAuthentication("Cus") {
+//      case (jwt, req) => {
+//        (for {
+//          uid <- jwt.getClaim[Uid]
+//        } yield {
+//          val check = (uid.value == 1)
+//          if (check)
+//            userRoles(AuthRole("auth"))
+//          check
+//        }).getOrElse(false)
+//      }
+//      case _ => false
+//    }
 
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
+    
+    DB.addLogFunc(DB.queryCollector)
+    DB.addLogFunc {
+      case (log, duration) => {
+        logger.debug("Total query time : %d ms".format(duration))
+        log.allEntries.foreach {
+          case DBLogEntry(stmt,duration) =>
+            logger.debug("  %s in %d ms".format(stmt, duration))
+        }
+      }
+    }
   }
   
   object DBVendor extends ConnectionManager {

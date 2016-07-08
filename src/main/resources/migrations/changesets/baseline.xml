@@ -60,16 +60,25 @@
             <column name="category_id" type="smallint">
                 <constraints nullable="false" />
             </column>
-            <column name="amount" type="currency">
+            <column name="amount" type="decimal(15,2)">
                 <constraints nullable="false" />
             </column>
-            <column name="effective_date" type="date">
+            <column name="detail" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="created" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="year" type="smallint">
                 <constraints nullable="false" />
             </column>
-            <column name="last_modified" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="month" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="date" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified" type="bigint">
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -83,16 +92,25 @@
             <column name="category_id" type="smallint">
                 <constraints nullable="false" />
             </column>
-            <column name="amount" type="currency">
+            <column name="amount" type="decimal(15,2)">
                 <constraints nullable="false" />
             </column>
-            <column name="effective_date" type="date">
+            <column name="detail" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="created" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="year" type="smallint">
                 <constraints nullable="false" />
             </column>
-            <column name="last_modified" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="month" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="date" type="smallint">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified" type="bigint">
                 <constraints nullable="false" />
             </column>
         </createTable>
